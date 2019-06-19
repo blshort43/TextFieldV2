@@ -24,20 +24,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Box } from 'rebass';
+import { Card } from 'rebass';
 
 const StyledInput = styled.input`
   outline: none;
-  border-radius: 4px;
   font-family: inherit;
-  padding: ${props => (props.padding ? props.padding : '15px')};
+  padding: ${props => (props.padding ? props.padding : '12px')};
   transition: all 0.25s linear;
   margin: 0;
   box-sizing: border-box;
   border: ${props => (props.border ? props.border : '1px solid #909090')};
-  width: ${props => (props.width ? props.width : '90%')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
+  height: ${props => (props.height ? props.height : '45px')};
+  width: 100%;
   max-width: ${props => (props.maxWidth ? props.maxWidth : '300px')};
-  min-width: 100px;
+  min-width: 144px;
   :hover {
     border: solid 1px black;
     cursor: text;
@@ -55,9 +56,25 @@ const StyledInput = styled.input`
   }
 `;
 
+const StyledLegend = styled.legend`
+  outline: none;
+`;
+
 class TextField extends React.PureComponent {
   state = {
     focused: false,
+  };
+
+  componentDidMount() {
+    if (this.props.type === 'date') {
+      this.handleFocus();
+    }
+  }
+
+  handleHover = () => {
+    if (this.props.value) {
+      this.setState({ focused: true });
+    }
   };
 
   handleFocus = () => {
@@ -65,19 +82,29 @@ class TextField extends React.PureComponent {
   };
 
   handleBlur = () => {
-    this.setState({ focused: false });
+    if (this.props.value) {
+      this.setState({ focused: true });
+    } else {
+      this.setState({ focused: false });
+    }
   };
 
   render() {
     const { ...props } = this.props;
     return (
-      <Box
+      <Card
         m={props.margin || props.m || 0}
         mt={props.mt || 3}
         p={0}
         bg={props.bg}
+        borderRadius={props.borderRadius || '6px'}
+        width={props.width}
+        height="30px"
       >
-        <legend
+        <StyledLegend
+          tabIndex="0"
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
           style={{
             fontSize: '12px',
             opacity: `${this.state.focused ? 1 : 0}`,
@@ -90,16 +117,17 @@ class TextField extends React.PureComponent {
           }}
         >
           {props.label}
-        </legend>
+        </StyledLegend>
         <StyledInput
           {...props}
-          value={props.value}
+          value={props.value || ''}
           type={props.type ? props.type : 'text'}
           name={props.name}
+          onMouseOver={this.handleHover}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
-      </Box>
+      </Card>
     );
   }
 }
