@@ -58,6 +58,11 @@ const StyledInput = styled.input`
 
 const StyledLegend = styled.legend`
   outline: none;
+  pointer-events: none;
+  font-size: 12px;
+  transition: all 0.25s ease-in-out;
+  position: absolute;
+  box-sizing: border-box;
 `;
 
 class TextField extends React.PureComponent {
@@ -70,12 +75,6 @@ class TextField extends React.PureComponent {
       this.handleFocus();
     }
   }
-
-  handleHover = () => {
-    if (this.props.value) {
-      this.setState({ focused: true });
-    }
-  };
 
   handleFocus = () => {
     this.setState({ focused: true });
@@ -102,19 +101,14 @@ class TextField extends React.PureComponent {
         height="30px"
       >
         <StyledLegend
-          tabIndex="0"
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
           style={{
-            fontSize: '12px',
             opacity: `${this.state.focused ? 1 : 0}`,
-            transition: 'all .25s ease-in-out',
-            position: 'absolute',
-            boxSizing: 'border-box',
             transform: `${
               this.state.focused ? 'translate(0, -18px)' : 'translate(10px, 0)'
             }`,
           }}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
         >
           {props.label}
         </StyledLegend>
@@ -123,7 +117,6 @@ class TextField extends React.PureComponent {
           value={props.value || ''}
           type={props.type ? props.type : 'text'}
           name={props.name}
-          onMouseOver={this.handleHover}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
