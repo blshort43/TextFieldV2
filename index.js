@@ -40,14 +40,15 @@ const StyledInput = styled.input`
   max-width: ${props => (props.maxWidth ? props.maxWidth : '300px')};
   min-width: 144px;
   :hover {
-    border: solid 1px black;
+    border: solid 1px #000000;
     cursor: text;
     ::placeholder {
-      color: black;
+      color: #000000;
       opacity: 1;
     }
   }
   :focus {
+    color: #000000;
     outline-offset: 0;
     border: solid 1px #2e66ff;
     ::placeholder {
