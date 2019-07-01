@@ -26,6 +26,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Card } from 'rebass';
 
+const StyledCard = styled(Card)`
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
+`;
+
 const StyledInput = styled.input`
   outline: none;
   font-family: inherit;
@@ -35,8 +39,9 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   border: ${props => (props.border ? props.border : '1px solid #909090')};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
-  height: ${props => (props.height ? props.height : '45px')};
+  /* height: ${props => (props.height ? props.height : '45px')}; */
   width: 100%;
+  height: 100%;
   max-width: ${props => (props.maxWidth ? props.maxWidth : '300px')};
   min-width: 144px;
   :hover {
@@ -90,17 +95,23 @@ class TextField extends React.PureComponent {
   };
 
   render() {
-    const { ...props } = this.props;
+    const {
+      value,
+      type,
+      name,
+      onFocus,
+      onBlur,
+      label,
+      border,
+      placeholder,
+      padding,
+      background,
+      borderRadius,
+      height,
+      ...rest
+    } = this.props;
     return (
-      <Card
-        m={props.margin || props.m || 0}
-        mt={props.mt || 3}
-        p={0}
-        bg={props.bg}
-        borderRadius={props.borderRadius || '6px'}
-        width={props.width}
-        height="30px"
-      >
+      <StyledCard {...rest}>
         <StyledLegend
           style={{
             opacity: `${this.state.focused ? 1 : 0}`,
@@ -108,20 +119,23 @@ class TextField extends React.PureComponent {
               this.state.focused ? 'translate(0, -18px)' : 'translate(10px, 0)'
             }`,
           }}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
         >
-          {props.label}
+          {label}
         </StyledLegend>
         <StyledInput
-          {...props}
-          value={props.value || ''}
-          type={props.type ? props.type : 'text'}
-          name={props.name}
+          height={height}
+          border={border}
+          background={background}
+          padding={padding}
+          placeholder={placeholder || ''}
+          value={value || ''}
+          type={type || 'text'}
+          name={name}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          borderRadius={borderRadius}
         />
-      </Card>
+      </StyledCard>
     );
   }
 }
