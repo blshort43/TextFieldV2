@@ -27,7 +27,8 @@ import styled from 'styled-components';
 import { Card } from 'rebass';
 
 const StyledCard = styled(Card)`
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
+  width: ${props => (props.width ? props.width : '200px')};
+  height: ${props => (props.height ? props.height : '55px')};
 `;
 
 const StyledInput = styled.input`
@@ -40,7 +41,6 @@ const StyledInput = styled.input`
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
   width: 100%;
   height: 100%;
-
   :hover {
     border: solid 1px #000000;
     cursor: text;
@@ -104,6 +104,7 @@ class TextField extends React.PureComponent {
       padding,
       background,
       borderRadius,
+      min,
       ...rest
     } = this.props;
     return (
@@ -119,6 +120,7 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
+          min={min}
           border={border}
           background={background}
           padding={padding}
