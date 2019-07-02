@@ -35,15 +35,12 @@ const StyledInput = styled.input`
   font-family: inherit;
   padding: ${props => (props.padding ? props.padding : '12px')};
   transition: all 0.25s linear;
-  margin: 0;
   box-sizing: border-box;
   border: ${props => (props.border ? props.border : '1px solid #909090')};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
-  /* height: ${props => (props.height ? props.height : '45px')}; */
   width: 100%;
   height: 100%;
-  max-width: ${props => (props.maxWidth ? props.maxWidth : '300px')};
-  min-width: 144px;
+
   :hover {
     border: solid 1px #000000;
     cursor: text;
@@ -107,7 +104,6 @@ class TextField extends React.PureComponent {
       padding,
       background,
       borderRadius,
-      height,
       ...rest
     } = this.props;
     return (
@@ -123,7 +119,6 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
-          height={height}
           border={border}
           background={background}
           padding={padding}
