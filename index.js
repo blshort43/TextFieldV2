@@ -53,10 +53,6 @@ const StyledInput = styled.input`
     border: ${props =>
       props.borderHovered ? props.borderHovered : '1px solid #000000'};
     cursor: text;
-    ::placeholder {
-      color: ${props => (props.color ? props.color : '#000000')};
-      opacity: 1;
-    }
   }
 
   :focus {
@@ -71,6 +67,7 @@ const StyledInput = styled.input`
 `;
 
 const StyledLegend = styled.legend`
+  color: ${props => (props.labelColor ? props.labelColor : '#000000')};
   outline: none;
   pointer-events: none;
   font-size: 12px;
@@ -112,6 +109,7 @@ class TextField extends React.PureComponent {
       onBlur,
       onChange,
       label,
+      labelColor,
       border,
       borderFocused,
       borderHovered,
@@ -127,6 +125,7 @@ class TextField extends React.PureComponent {
     return (
       <StyledCard {...rest}>
         <StyledLegend
+          labelColor={labelColor}
           style={{
             opacity: `${this.state.focused ? 1 : 0}`,
             transform: `${
@@ -137,6 +136,7 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
+          label={label}
           min={min}
           color={color}
           background={background || bg}
