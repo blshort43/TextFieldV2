@@ -33,6 +33,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledInput = styled.input`
+  color: ${props => (props.color ? props.color : '#000000')};
   outline: none;
   font-family: inherit;
   padding: ${props => (props.padding ? props.padding : '12px')};
@@ -109,6 +110,7 @@ class TextField extends React.PureComponent {
       name,
       onFocus,
       onBlur,
+      onChange,
       label,
       border,
       borderFocused,
@@ -119,6 +121,7 @@ class TextField extends React.PureComponent {
       bg,
       borderRadius,
       min,
+      readOnly,
       ...rest
     } = this.props;
     return (
@@ -149,6 +152,7 @@ class TextField extends React.PureComponent {
           name={name}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          onChange={onChange}
         />
       </StyledCard>
     );
