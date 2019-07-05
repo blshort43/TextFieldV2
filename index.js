@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable indent */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -11,39 +11,35 @@ const StyledCard = styled(Card)`
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
 `;
 
-const StyledSelectField = styled.select`
+const StyledInput = styled.input`
   color: ${props => (props.color ? props.color : '#000000')};
   outline: none;
   font-family: inherit;
-  padding: ${props => (props.padding ? props.padding : '12px')};
+  padding: ${props =>
+    props.padding || props.p ? props.padding || props.p : '12px'};
   transition: all 0.25s linear;
   box-sizing: border-box;
   border: ${props => (props.border ? props.border : '1px solid #909090')};
-  background-color: ${props => props.background};
+  background-color: ${props => props.background || props.bg};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
   width: 100%;
   height: 100%;
-  :invalid {
-    color: gray;
-  }
-  ::placeholder {
-    color: ${props => (props.color ? props.color : '#000000')};
-  }
   :hover {
-    color: ${props => (props.color ? props.color : '#000000')};
+    color: ${props => (props.colorHover ? props.colorHover : '#000000')};
     border: ${props =>
-      props.borderHovered ? props.borderHovered : '1px solid #000000'};
+      props.borderHover ? props.borderHover : '1px solid #000000'};
+    background-color: ${props => props.backgroundHover || props.bgHover};
     cursor: text;
     ::placeholder {
-      color: ${props => (props.color ? props.color : '#000000')};
       opacity: 1;
     }
   }
   :focus {
-    color: ${props => (props.color ? props.color : '#000000')};
     outline-offset: 0;
+    color: ${props => (props.colorFocus ? props.colorFocus : '#000000')};
     border: ${props =>
-      props.borderFocused ? props.borderFocused : '1px solid #2e66ff'};
+      props.borderFocus ? props.borderFocus : '1px solid #2e66ff'};
+    background-color: ${props => props.backgroundFocus || props.bgFocus};
     ::placeholder {
       opacity: 0;
     }
@@ -60,21 +56,26 @@ const StyledLegend = styled.legend`
   box-sizing: border-box;
 `;
 
-class SelectField extends React.PureComponent {
+class TextField extends React.PureComponent {
   state = {
     focused: false,
-    showPlaceholder: true,
   };
 
+  componentDidMount() {
+    if (this.props.type === 'date') {
+      this.handleFocus();
+    }
+  }
+
   handleFocus = () => {
-    this.setState({ focused: true, showPlaceholder: false });
+    this.setState({ focused: true });
   };
 
   handleBlur = () => {
     if (this.props.value) {
-      this.setState({ showPlaceholder: true });
+      this.setState({ focused: true });
     } else {
-      this.setState({ focused: false, showPlaceholder: true });
+      this.setState({ focused: false });
     }
   };
 
@@ -86,6 +87,7 @@ class SelectField extends React.PureComponent {
       name,
       onFocus,
       onBlur,
+      onChange,
       label,
       labelColor,
       border,
@@ -97,12 +99,9 @@ class SelectField extends React.PureComponent {
       bg,
       borderRadius,
       min,
-      required,
-      children,
-      onChange,
+      readOnly,
       ...rest
     } = this.props;
-
     return (
       <StyledCard {...rest}>
         <StyledLegend
@@ -116,9 +115,9 @@ class SelectField extends React.PureComponent {
         >
           {label}
         </StyledLegend>
-        <StyledSelectField
-          // ref="yearSelect"
-          required={required}
+        <StyledInput
+          label={label}
+          min={min}
           color={color}
           background={background || bg}
           padding={padding}
@@ -134,17 +133,16 @@ class SelectField extends React.PureComponent {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onChange={onChange}
-        >
-          {this.state.showPlaceholder && <option value="">{label}</option>}
-          {children}
-        </StyledSelectField>
+        />
       </StyledCard>
     );
   }
 }
 
-SelectField.propTypes = {
-  children: PropTypes.node.isRequired,
+TextField.propTypes = {
+  name: PropTypes.string,
+  type: PropTypes.string,
+  value: PropTypes.string,
 };
 
-export default SelectField;
+export default TextField;
