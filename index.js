@@ -82,6 +82,8 @@ class TextField extends React.PureComponent {
   render() {
     const {
       color,
+      colorHover,
+      colorFocus,
       value,
       type,
       name,
@@ -96,10 +98,15 @@ class TextField extends React.PureComponent {
       placeholder,
       padding,
       background,
+      bgHover,
+      backgroundHover,
+      bgFocus,
+      backgroundFocus,
       bg,
       borderRadius,
       min,
       readOnly,
+
       ...rest
     } = this.props;
     return (
@@ -119,7 +126,11 @@ class TextField extends React.PureComponent {
           label={label}
           min={min}
           color={color}
+          colorHover={colorHover}
+          colorFocus={colorFocus}
           background={background || bg}
+          backgroundHover={backgroundHover || bgHover}
+          backgroundFocus={backgroundFocus || bgFocus}
           padding={padding}
           // border="1px solid green"
           border={border}
