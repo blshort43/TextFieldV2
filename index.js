@@ -19,7 +19,12 @@ const StyledInput = styled.input`
     props.padding || props.p ? props.padding || props.p : '12px'};
   transition: all 0.25s linear;
   box-sizing: border-box;
-  border: ${props => (props.border ? props.border : '1px solid #909090')};
+  border: ${props => {
+    if (props.error) {
+      return '1px solid red';
+    }
+    return props.border || '1px solid #909090';
+  }};
   background-color: ${props => props.background || props.bg};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
   width: 100%;
@@ -77,11 +82,11 @@ class TextField extends React.PureComponent {
     } else {
       this.setState({ focused: false });
     }
-    console.log('fizzbitch');
   };
 
   render() {
     const {
+      error,
       color,
       colorHover,
       colorFocus,
@@ -94,8 +99,8 @@ class TextField extends React.PureComponent {
       label,
       labelColor,
       border,
-      borderFocused,
-      borderHovered,
+      borderFocus,
+      borderHover,
       placeholder,
       padding,
       background,
@@ -134,8 +139,8 @@ class TextField extends React.PureComponent {
           padding={padding}
           // border="1px solid green"
           border={border}
-          borderFocused={borderFocused}
-          borderHovered={borderHovered}
+          borderFocus={borderFocus}
+          borderHover={borderHover}
           borderRadius={borderRadius}
           placeholder={placeholder || ''}
           value={value || ''}
@@ -144,6 +149,7 @@ class TextField extends React.PureComponent {
           onBlur={onBlur}
           onFocus={onFocus}
           onChange={onChange}
+          error={error}
         />
       </StyledCard>
     );
