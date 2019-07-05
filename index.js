@@ -77,6 +77,7 @@ class TextField extends React.PureComponent {
     } else {
       this.setState({ focused: false });
     }
+    console.log('fizzbitch');
   };
 
   render() {
@@ -109,7 +110,7 @@ class TextField extends React.PureComponent {
       ...rest
     } = this.props;
     return (
-      <StyledCard {...rest}>
+      <StyledCard {...rest} onBlur={this.handleBlur} onFocus={this.handleFocus}>
         <StyledLegend
           labelColor={labelColor}
           style={{
@@ -140,8 +141,8 @@ class TextField extends React.PureComponent {
           value={value || ''}
           type={type || 'text'}
           name={name}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
+          onBlur={onBlur}
+          onFocus={onFocus}
           onChange={onChange}
         />
       </StyledCard>
