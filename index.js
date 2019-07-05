@@ -22,6 +22,7 @@ const StyledInput = styled.input`
     color: ${props => (props.colorHover ? props.colorHover : '#000000')};
     border: ${props =>
       props.borderHover ? props.borderHover : '1px solid #000000'};
+    background-color: ${props => props.backgroundHover || props.bgHover};
     cursor: text;
     ::placeholder {
       opacity: 1;
@@ -32,6 +33,7 @@ const StyledInput = styled.input`
     color: ${props => (props.colorFocus ? props.colorFocus : '#000000')};
     border: ${props =>
       props.borderFocus ? props.borderFocus : '1px solid #2e66ff'};
+    background-color: ${props => props.backgroundFocus || props.bgFocus};
     ::placeholder {
       opacity: 0;
     }
