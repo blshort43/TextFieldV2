@@ -106,7 +106,6 @@ class TextField extends React.PureComponent {
       borderRadius,
       min,
       readOnly,
-
       ...rest
     } = this.props;
     return (
