@@ -21,7 +21,7 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   border: ${props => {
     if (props.error) {
-      return '1px solid red';
+      return props.errorBorder || '1px solid red';
     }
     return props.border || '1px solid #909090';
   }};
@@ -31,8 +31,12 @@ const StyledInput = styled.input`
   height: 100%;
   :hover {
     color: ${props => (props.colorHover ? props.colorHover : '#000000')};
-    border: ${props =>
-      props.borderHover ? props.borderHover : '1px solid #000000'};
+    border: ${props => {
+      if (props.error) {
+        return props.errorBorder || '1px solid red';
+      }
+      return props.border || '1px solid #000000';
+    }};
     background-color: ${props => props.backgroundHover || props.bgHover};
     cursor: text;
     ::placeholder {
@@ -42,8 +46,12 @@ const StyledInput = styled.input`
   :focus {
     outline-offset: 0;
     color: ${props => (props.colorFocus ? props.colorFocus : '#000000')};
-    border: ${props =>
-      props.borderFocus ? props.borderFocus : '1px solid #2e66ff'};
+    border: ${props => {
+      if (props.error) {
+        return props.errorBorder || '1px solid red';
+      }
+      return props.border || '1px solid #2e66ff';
+    }};
     background-color: ${props => props.backgroundFocus || props.bgFocus};
     ::placeholder {
       opacity: 0;
@@ -59,6 +67,13 @@ const StyledLegend = styled.legend`
   transition: all 0.25s ease-in-out;
   position: absolute;
   box-sizing: border-box;
+`;
+
+const ErrorText = styled.text`
+  color: red;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
 `;
 
 class TextField extends React.PureComponent {
@@ -87,6 +102,8 @@ class TextField extends React.PureComponent {
   render() {
     const {
       error,
+      errorText,
+      errorBorder,
       color,
       colorHover,
       colorFocus,
@@ -128,6 +145,9 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
+          error={error}
+          errorText={errorText}
+          errorBorder={errorBorder}
           label={label}
           min={min}
           color={color}
@@ -149,8 +169,14 @@ class TextField extends React.PureComponent {
           onBlur={onBlur}
           onFocus={onFocus}
           onChange={onChange}
-          error={error}
         />
+        <ErrorText
+          style={{
+            opacity: `${error ? 1 : 0}`,
+          }}
+        >
+          {errorText}
+        </ErrorText>
       </StyledCard>
     );
   }
