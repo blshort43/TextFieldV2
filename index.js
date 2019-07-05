@@ -21,45 +21,40 @@
 // onBlur={this.switchToText}
 // />
 
+/* eslint-disable react/prop-types */
+/* eslint-disable indent */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Card } from 'rebass';
 
-const StyledCard = styled(Card)`
-  width: ${props => (props.width ? props.width : '200px')};
-  height: ${props => (props.height ? props.height : '55px')};
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
-`;
-
 const StyledInput = styled.input`
   color: ${props => (props.color ? props.color : '#000000')};
   outline: none;
   font-family: inherit;
-  padding: ${props => (props.padding ? props.padding : '12px')};
+  padding: ${props =>
+    props.padding || props.p ? props.padding || props.p : '12px'};
   transition: all 0.25s linear;
   box-sizing: border-box;
   border: ${props => (props.border ? props.border : '1px solid #909090')};
-  background-color: ${props => props.background};
+  background-color: ${props => props.background || props.bg};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
   width: 100%;
   height: 100%;
-  ::placeholder {
-    color: ${props => (props.color ? props.color : '#000000')};
-  }
-
   :hover {
-    color: ${props => (props.color ? props.color : '#000000')};
+    color: ${props => (props.colorHover ? props.colorHover : '#000000')};
     border: ${props =>
-      props.borderHovered ? props.borderHovered : '1px solid #000000'};
+      props.borderHover ? props.borderHover : '1px solid #000000'};
     cursor: text;
+    ::placeholder {
+      opacity: 1;
+    }
   }
-
   :focus {
-    color: ${props => (props.color ? props.color : '#000000')};
     outline-offset: 0;
+    color: ${props => (props.colorFocus ? props.colorFocus : '#000000')};
     border: ${props =>
-      props.borderFocused ? props.borderFocused : '1px solid #2e66ff'};
+      props.borderFocus ? props.borderFocus : '1px solid #2e66ff'};
     ::placeholder {
       opacity: 0;
     }
@@ -100,30 +95,9 @@ class TextField extends React.PureComponent {
   };
 
   render() {
-    const {
-      color,
-      value,
-      type,
-      name,
-      onFocus,
-      onBlur,
-      onChange,
-      label,
-      labelColor,
-      border,
-      borderFocused,
-      borderHovered,
-      placeholder,
-      padding,
-      background,
-      bg,
-      borderRadius,
-      min,
-      readOnly,
-      ...rest
-    } = this.props;
+    const { height, width, margin, label, labelColor, ...rest } = this.props;
     return (
-      <StyledCard {...rest}>
+      <Card height={height} width={width} margin={margin}>
         <StyledLegend
           labelColor={labelColor}
           style={{
@@ -135,26 +109,8 @@ class TextField extends React.PureComponent {
         >
           {label}
         </StyledLegend>
-        <StyledInput
-          label={label}
-          min={min}
-          color={color}
-          background={background || bg}
-          padding={padding}
-          // border="1px solid green"
-          border={border}
-          borderFocused={borderFocused}
-          borderHovered={borderHovered}
-          borderRadius={borderRadius}
-          placeholder={placeholder || ''}
-          value={value || ''}
-          type={type || 'text'}
-          name={name}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onChange={onChange}
-        />
-      </StyledCard>
+        <StyledInput {...rest} />
+      </Card>
     );
   }
 }
