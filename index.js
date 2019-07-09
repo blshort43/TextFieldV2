@@ -3,13 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Card } from 'rebass';
-
-const StyledCard = styled(Card)`
-  width: ${props => (props.width ? props.width : '200px')};
-  height: ${props => (props.height ? props.height : '55px')};
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
-`;
 
 const StyledInput = styled.input`
   color: ${props => (props.color ? props.color : '#000000')};
@@ -35,7 +28,7 @@ const StyledInput = styled.input`
       if (props.error) {
         return props.errorBorder || '1px solid red';
       }
-      return props.border || '1px solid #000000';
+      return props.borderHover || '1px solid #000000';
     }};
     background-color: ${props => props.backgroundHover || props.bgHover};
     cursor: text;
@@ -50,7 +43,7 @@ const StyledInput = styled.input`
       if (props.error) {
         return props.errorBorder || '1px solid red';
       }
-      return props.border || '1px solid #2e66ff';
+      return props.borderFocus || '1px solid #2e66ff';
     }};
     background-color: ${props => props.backgroundFocus || props.bgFocus};
     ::placeholder {
@@ -67,13 +60,6 @@ const StyledLegend = styled.legend`
   transition: all 0.25s ease-in-out;
   position: absolute;
   box-sizing: border-box;
-`;
-
-const ErrorText = styled.text`
-  color: red;
-  font-size: 12px;
-  margin: 0;
-  padding: 0;
 `;
 
 class TextField extends React.PureComponent {
@@ -100,39 +86,9 @@ class TextField extends React.PureComponent {
   };
 
   render() {
-    const {
-      error,
-      errorText,
-      errorBorder,
-      color,
-      colorHover,
-      colorFocus,
-      value,
-      type,
-      name,
-      onFocus,
-      onBlur,
-      onChange,
-      label,
-      labelColor,
-      border,
-      borderFocus,
-      borderHover,
-      placeholder,
-      padding,
-      background,
-      bgHover,
-      backgroundHover,
-      bgFocus,
-      backgroundFocus,
-      bg,
-      borderRadius,
-      min,
-      readOnly,
-      ...rest
-    } = this.props;
+    const { type, name, value, label, labelColor, ...props } = this.props;
     return (
-      <StyledCard {...rest} onBlur={this.handleBlur} onFocus={this.handleFocus}>
+      <div {...props} onBlur={this.handleBlur} onFocus={this.handleFocus}>
         <StyledLegend
           labelColor={labelColor}
           style={{
@@ -145,39 +101,17 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
-          error={error}
-          errorText={errorText}
-          errorBorder={errorBorder}
-          label={label}
-          min={min}
-          color={color}
-          colorHover={colorHover}
-          colorFocus={colorFocus}
-          background={background || bg}
-          backgroundHover={backgroundHover || bgHover}
-          backgroundFocus={backgroundFocus || bgFocus}
-          padding={padding}
-          // border="1px solid green"
-          border={border}
-          borderFocus={borderFocus}
-          borderHover={borderHover}
-          borderRadius={borderRadius}
-          placeholder={placeholder || ''}
-          value={value || ''}
-          type={type || 'text'}
+          {...props}
           name={name}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          onChange={onChange}
-        />
-        <ErrorText
+          type={type}
+          value={value}
           style={{
-            opacity: `${error ? 1 : 0}`,
+            height: '100%',
+            width: '100%',
+            margin: '0',
           }}
-        >
-          {errorText}
-        </ErrorText>
-      </StyledCard>
+        />
+      </div>
     );
   }
 }
