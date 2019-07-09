@@ -3,6 +3,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Card } from 'rebass';
+
+const StyledCard = styled(Card)`
+  width: ${props => (props.width ? props.width : '200px')};
+  height: ${props => (props.height ? props.height : '55px')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
+`;
 
 const StyledInput = styled.input`
   color: ${props => (props.color ? props.color : '#000000')};
@@ -88,7 +95,12 @@ class TextField extends React.PureComponent {
   render() {
     const { type, name, value, label, labelColor, ...props } = this.props;
     return (
-      <div {...props} onBlur={this.handleBlur} onFocus={this.handleFocus}>
+      <StyledCard
+        {...props}
+        style={{ border: 'none' }}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+      >
         <StyledLegend
           labelColor={labelColor}
           style={{
@@ -111,7 +123,7 @@ class TextField extends React.PureComponent {
             margin: '0',
           }}
         />
-      </div>
+      </StyledCard>
     );
   }
 }
