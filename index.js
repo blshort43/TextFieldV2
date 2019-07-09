@@ -69,13 +69,6 @@ const StyledLegend = styled.legend`
   box-sizing: border-box;
 `;
 
-const ErrorText = styled.text`
-  color: red;
-  font-size: 12px;
-  margin: 0;
-  padding: 0;
-`;
-
 class TextField extends React.PureComponent {
   state = {
     focused: false,
@@ -102,7 +95,6 @@ class TextField extends React.PureComponent {
   render() {
     const {
       error,
-      errorText,
       errorBorder,
       color,
       colorHover,
@@ -132,7 +124,12 @@ class TextField extends React.PureComponent {
       ...rest
     } = this.props;
     return (
-      <StyledCard {...rest} onBlur={this.handleBlur} onFocus={this.handleFocus}>
+      <StyledCard
+        {...rest}
+        style={{ padding: 0 }}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+      >
         <StyledLegend
           labelColor={labelColor}
           style={{
@@ -146,7 +143,6 @@ class TextField extends React.PureComponent {
         </StyledLegend>
         <StyledInput
           error={error}
-          errorText={errorText}
           errorBorder={errorBorder}
           label={label}
           min={min}
@@ -170,13 +166,6 @@ class TextField extends React.PureComponent {
           onFocus={onFocus}
           onChange={onChange}
         />
-        <ErrorText
-          style={{
-            opacity: `${error ? 1 : 0}`,
-          }}
-        >
-          {errorText}
-        </ErrorText>
       </StyledCard>
     );
   }
