@@ -1,5 +1,26 @@
 /* eslint-disable indent */
-/* eslint-disable react/prop-types */
+/**
+ *
+ * TextField
+ *
+ */
+// NOTE
+// To create a date selector with an initial placeHolder text message, use as="input" type="text" which will initially create a text field.
+// Then use onFocus={this.switchToDate} to switch the field to a date selector field when the user clicks on it.
+// Use onBlur={this.switchToText} to switch it back to a text field with placeHolder text if the user leaves the field without entering a date.
+
+// NOTE Set marginTop/mt on the child component instead of in the Styled Component to keep the top margin from being placed between the label and the TextField.
+
+// NOTE Example:
+
+// <TextField
+// marginTop='20px'
+// placeHolder="Start Date"
+// type="date"
+// onFocus={this.switchToDate}
+// onBlur={this.switchToText}
+// />
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -15,44 +36,31 @@ const StyledInput = styled.input`
   color: ${props => (props.color ? props.color : '#000000')};
   outline: none;
   font-family: inherit;
-  padding: ${props =>
-    props.padding || props.p ? props.padding || props.p : '12px'};
+  padding: ${props => (props.padding ? props.padding : '12px')};
   transition: all 0.25s linear;
   box-sizing: border-box;
-  border: ${props => {
-    if (props.error) {
-      return props.errorBorder || '1px solid red';
-    }
-    return props.border || '1px solid #909090';
-  }};
-  background-color: ${props => props.background || props.bg};
+  border: ${props => (props.border ? props.border : '1px solid #909090')};
+  background-color: ${props => props.background};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
+  border-color: ${props => props.error && 'red'};
   width: 100%;
   height: 100%;
-  :hover {
-    color: ${props => (props.colorHover ? props.colorHover : '#000000')};
-    border: ${props => {
-      if (props.error) {
-        return props.errorBorder || '1px solid red';
-      }
-      return props.border || '1px solid #000000';
-    }};
-    background-color: ${props => props.backgroundHover || props.bgHover};
-    cursor: text;
-    ::placeholder {
-      opacity: 1;
-    }
+  ::placeholder {
+    color: ${props => (props.color ? props.color : '#000000')};
   }
+
+  :hover {
+    color: ${props => (props.color ? props.color : '#000000')};
+    border: ${props =>
+      props.borderHovered ? props.borderHovered : '1px solid #000000'};
+    cursor: text;
+  }
+
   :focus {
+    color: ${props => (props.color ? props.color : '#000000')};
     outline-offset: 0;
-    color: ${props => (props.colorFocus ? props.colorFocus : '#000000')};
-    border: ${props => {
-      if (props.error) {
-        return props.errorBorder || '1px solid red';
-      }
-      return props.border || '1px solid #2e66ff';
-    }};
-    background-color: ${props => props.backgroundFocus || props.bgFocus};
+    border: ${props =>
+      props.borderFocused ? props.borderFocused : '1px solid #2e66ff'};
     ::placeholder {
       opacity: 0;
     }
@@ -94,11 +102,7 @@ class TextField extends React.PureComponent {
 
   render() {
     const {
-      error,
-      errorBorder,
       color,
-      colorHover,
-      colorFocus,
       value,
       type,
       name,
@@ -108,15 +112,11 @@ class TextField extends React.PureComponent {
       label,
       labelColor,
       border,
-      borderFocus,
-      borderHover,
+      borderFocused,
+      borderHovered,
       placeholder,
       padding,
       background,
-      bgHover,
-      backgroundHover,
-      bgFocus,
-      backgroundFocus,
       bg,
       borderRadius,
       min,
@@ -124,12 +124,7 @@ class TextField extends React.PureComponent {
       ...rest
     } = this.props;
     return (
-      <StyledCard
-        {...rest}
-        style={{ padding: 0 }}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-      >
+      <StyledCard {...rest}>
         <StyledLegend
           labelColor={labelColor}
           style={{
@@ -142,28 +137,23 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
-          error={error}
-          errorBorder={errorBorder}
           label={label}
           min={min}
           color={color}
-          colorHover={colorHover}
-          colorFocus={colorFocus}
           background={background || bg}
-          backgroundHover={backgroundHover || bgHover}
-          backgroundFocus={backgroundFocus || bgFocus}
           padding={padding}
           // border="1px solid green"
           border={border}
-          borderFocus={borderFocus}
-          borderHover={borderHover}
+          borderFocused={borderFocused}
+          borderHovered={borderHovered}
           borderRadius={borderRadius}
           placeholder={placeholder || ''}
           value={value || ''}
           type={type || 'text'}
           name={name}
-          onBlur={onBlur}
-          onFocus={onFocus}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          error={this.props.error}
           onChange={onChange}
         />
       </StyledCard>
