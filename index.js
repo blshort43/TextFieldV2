@@ -35,7 +35,7 @@ const StyledInput = styled.input`
       if (props.error) {
         return props.errorBorder || '1px solid red';
       }
-      return props.borderHover || '1px solid #000000';
+      return props.border || '1px solid #000000';
     }};
     background-color: ${props => props.backgroundHover || props.bgHover};
     cursor: text;
@@ -50,7 +50,7 @@ const StyledInput = styled.input`
       if (props.error) {
         return props.errorBorder || '1px solid red';
       }
-      return props.borderFocus || '1px solid #2e66ff';
+      return props.border || '1px solid #2e66ff';
     }};
     background-color: ${props => props.backgroundFocus || props.bgFocus};
     ::placeholder {
@@ -93,11 +93,41 @@ class TextField extends React.PureComponent {
   };
 
   render() {
-    const { type, name, value, label, labelColor, ...props } = this.props;
+    const {
+      error,
+      errorText,
+      errorBorder,
+      color,
+      colorHover,
+      colorFocus,
+      value,
+      type,
+      name,
+      onFocus,
+      onBlur,
+      onChange,
+      label,
+      labelColor,
+      border,
+      borderFocus,
+      borderHover,
+      placeholder,
+      padding,
+      background,
+      bgHover,
+      backgroundHover,
+      bgFocus,
+      backgroundFocus,
+      bg,
+      borderRadius,
+      min,
+      readOnly,
+      ...rest
+    } = this.props;
     return (
       <StyledCard
-        {...props}
-        style={{ border: 'none' }}
+        style={{ padding: '0' }}
+        {...rest}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
       >
@@ -113,15 +143,29 @@ class TextField extends React.PureComponent {
           {label}
         </StyledLegend>
         <StyledInput
-          {...props}
+          error={error}
+          errorBorder={errorBorder}
+          label={label}
+          min={min}
+          color={color}
+          colorHover={colorHover}
+          colorFocus={colorFocus}
+          background={background || bg}
+          backgroundHover={backgroundHover || bgHover}
+          backgroundFocus={backgroundFocus || bgFocus}
+          padding={padding}
+          // border="1px solid green"
+          border={border}
+          borderFocus={borderFocus}
+          borderHover={borderHover}
+          borderRadius={borderRadius}
+          placeholder={placeholder || ''}
+          value={value || ''}
+          type={type || 'text'}
           name={name}
-          type={type}
-          value={value}
-          style={{
-            height: '100%',
-            width: '100%',
-            margin: '0',
-          }}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          onChange={onChange}
         />
       </StyledCard>
     );
