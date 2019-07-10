@@ -54,6 +54,10 @@ const StyledInput = styled.input`
     border: ${props =>
       props.borderHovered ? props.borderHovered : '1px solid #000000'};
     cursor: text;
+    ::placeholder {
+      color: ${props => (props.color ? props.color : '#000000')};
+      opacity: 1;
+    }
   }
 
   :focus {
