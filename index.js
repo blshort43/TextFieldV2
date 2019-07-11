@@ -45,11 +45,16 @@ const StyledInput = styled.input`
   border-color: ${props => props.error && 'red'};
   width: 100%;
   height: 100%;
+  ::-webkit-datetime-edit {
+    opacity: ${props => props.value === '' && '0.6'};
+  }
   ::placeholder {
     color: ${props => (props.color ? props.color : '#000000')};
   }
-
   :hover {
+    ::-webkit-datetime-edit {
+      opacity: 1;
+    }
     color: ${props => (props.color ? props.color : '#000000')};
     border: ${props =>
       props.borderHovered ? props.borderHovered : '1px solid #000000'};
@@ -59,7 +64,6 @@ const StyledInput = styled.input`
       opacity: 1;
     }
   }
-
   :focus {
     color: ${props => (props.color ? props.color : '#000000')};
     outline-offset: 0;
