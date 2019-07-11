@@ -36,39 +36,62 @@ const StyledInput = styled.input`
   color: ${props => (props.color ? props.color : '#000000')};
   outline: none;
   font-family: inherit;
-  padding: ${props => (props.padding ? props.padding : '12px')};
+  padding: ${props =>
+    props.padding || props.p ? props.padding || props.p : '12px'};
   transition: all 0.25s linear;
   box-sizing: border-box;
-  border: ${props => (props.border ? props.border : '1px solid #909090')};
-  background-color: ${props => props.background};
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
-  border-color: ${props => props.error && 'red'};
-  width: 100%;
-  height: 100%;
+  border: ${props => {
+    if (props.error) {
+      return props.errorBorder || '1px solid red';
+    }
+    return props.border || '1px solid #909090';
+  }};
   ::-webkit-datetime-edit {
     opacity: ${props => props.value === '' && '0.6'};
   }
-  ::placeholder {
-    color: ${props => (props.color ? props.color : '#000000')};
-  }
+  background-color: ${props => props.background || props.bg};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '6px')};
+  width: 100%;
+  height: 100%;
   :hover {
     ::-webkit-datetime-edit {
       opacity: 1;
     }
-    color: ${props => (props.color ? props.color : '#000000')};
-    border: ${props =>
-      props.borderHovered ? props.borderHovered : '1px solid #000000'};
+    color: ${props =>
+      props.colorHover ? props.colorHover : props.color || '#000000'};
+    border: ${props => {
+      if (props.error) {
+        return props.errorBorder || '1px solid red';
+      }
+      return props.borderHover
+        ? props.borderHover
+        : props.border || '1px solid #000000';
+    }};
+    background-color: ${props =>
+      props.backgroundHover
+        ? props.backgroundHover
+        : props.background || props.bg};
     cursor: text;
     ::placeholder {
-      color: ${props => (props.color ? props.color : '#000000')};
       opacity: 1;
     }
   }
   :focus {
-    color: ${props => (props.color ? props.color : '#000000')};
     outline-offset: 0;
-    border: ${props =>
-      props.borderFocused ? props.borderFocused : '1px solid #2e66ff'};
+    color: ${props =>
+      props.colorFocus ? props.colorFocus : props.color || '#000000'};
+    border: ${props => {
+      if (props.error) {
+        return props.errorBorder || '1px solid red';
+      }
+      return props.borderFocus
+        ? props.borderFocus
+        : props.border || '1px solid #2e66ff';
+    }};
+    background-color: ${props =>
+      props.backgroundFocus
+        ? props.backgroundFocus
+        : props.background || props.bg};
     ::placeholder {
       opacity: 0;
     }
@@ -110,7 +133,11 @@ class TextField extends React.PureComponent {
 
   render() {
     const {
+      error,
+      errorBorder,
       color,
+      colorHover,
+      colorFocus,
       value,
       type,
       name,
@@ -120,11 +147,13 @@ class TextField extends React.PureComponent {
       label,
       labelColor,
       border,
-      borderFocused,
-      borderHovered,
+      borderFocus,
+      borderHover,
       placeholder,
       padding,
       background,
+      backgroundHover,
+      backgroundFocus,
       bg,
       borderRadius,
       min,
@@ -148,12 +177,16 @@ class TextField extends React.PureComponent {
           label={label}
           min={min}
           color={color}
+          colorHover={colorHover}
+          colorFocus={colorFocus}
           background={background || bg}
+          backgroundHover={backgroundHover}
+          backgroundFocus={backgroundFocus}
           padding={padding}
           // border="1px solid green"
           border={border}
-          borderFocused={borderFocused}
-          borderHovered={borderHovered}
+          borderFocus={borderFocus}
+          borderHover={borderHover}
           borderRadius={borderRadius}
           placeholder={placeholder || ''}
           value={value || ''}
@@ -161,7 +194,8 @@ class TextField extends React.PureComponent {
           name={name}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          error={this.props.error}
+          error={error}
+          errorBorder={errorBorder}
           onChange={onChange}
         />
       </StyledCard>
