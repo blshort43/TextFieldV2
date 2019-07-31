@@ -68,7 +68,7 @@ class TextField extends React.PureComponent {
   };
 
   componentDidMount() {
-    if (this.props.type === 'date') {
+    if (this.props.value !== '') {
       this.handleFocus();
     }
   }
