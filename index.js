@@ -83,7 +83,6 @@ class TextField extends React.PureComponent {
     } else {
       this.setState({ focused: false });
     }
-    console.log('fizzbitch');
   };
 
   render() {
